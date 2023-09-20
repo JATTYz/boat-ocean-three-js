@@ -1,0 +1,65 @@
+*{
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.container {
+    height: 100%;
+    position: relative;
+    width: 100%;
+}
+.upper_half {
+    height: 65vh;
+    width: 100%;
+    /* background-color: blue; */
+    position: relative;
+}
+.lower_half {
+    height: 35vh;
+    width: 100%;
+    background-color: red;
+    /* position: relative; */
+    /* bottom: 0; */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.cm {
+    
+    grid-column: 2 / 5;
+    display: grid;
+    background-color: #2f6812;
+    align-self: start;
+}
+
+.test {
+    grid-column: 3 / 5;
+    display: grid;
+    background-color: #e77731;
+}
+
+/* .test {
+    height: 40vh;
+    width: 35%;
+    background-color: rgb(76, 0, 255);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+} */
+
+#render{
+    height: 50%;
+    width: 70%;
+    position: absolute;
+    top:0;
+    /* background-color: aquamarine; */
+}
+
+#map{
+    position: absolute;
+    width: 30%;
+    height: 100%;
+    /* background: green; */
+    right: 0;
+}
+
+
