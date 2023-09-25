@@ -13,19 +13,28 @@ import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 let camera, scene, renderer;
 let controls, water, sun;
 let timeIntervals = [];
-
+let gltfModel;
 const loader = new GLTFLoader();
 
 
-
+// test2
   class Boat {
     loadingPromise = new Promise((resolve, reject) => {
-      loader.load("assets/boat/scene.gltf", (gltf) => {
-        scene.add(gltf.scene);
-        gltf.scene.scale.set(2, 2, 2);
+      loader.load("assets/test2/scene.gltf", (gltf) => {
+        gltf.scene.traverse((child) => {
+          if (child.isMesh) {
+            const material = child.material;
+            // Modify material color here
+            const newColor = new THREE.Color(1, 0, 0); // Red
+            material.color.set(0x616060)
+          }
+        });
+       
+        gltf.scene.scale.set(100, 100, 100);
         gltf.scene.position.set(-17.3285, 1, -29.7828);
         gltf.scene.rotation.y = -1.5;
-        this.boat = gltf.scene;
+        gltfModel = gltf.scene;
+        scene.add(gltf.scene);
         resolve(this.boat); // Resolve the promise when the object is loaded
       }, undefined, reject);
     });
@@ -118,7 +127,7 @@ const loader = new GLTFLoader();
       // Update the position of the sun and sky
       function updateSun() {
           const phi = THREE.MathUtils.degToRad(90 - parameters.elevation);
-          const theta = THREE.MathUtils.degToRad(parameters.azimuth);
+          const theta = THREE.MathUtils.degToRad(90);
           sun.setFromSphericalCoords(1, phi, theta);
           sky.material.uniforms['sunPosition'].value.copy(sun);
           water.material.uniforms['sunDirection'].value.copy(sun).normalize();
@@ -148,9 +157,9 @@ const loader = new GLTFLoader();
       const northIndicator = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
       // Position the cube at the north direction
-      northIndicator.position.set(0, 50, indicatorDistance);
+      // northIndicator.position.set(0, 50, indicatorDistance);
 
-      scene.add(northIndicator);
+      // scene.add(northIndicator);
   
       const points = [];
     
@@ -212,22 +221,55 @@ const loader = new GLTFLoader();
         size: 3,
         height:2
       })
-    
-      const textMesh = new THREE.Mesh(textgeo)
+      const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+      const textMesh = new THREE.Mesh(textgeo, material)
 
       textMesh.castShadow = true
       textMesh.position.set(0,10,12)
       textMesh.rotateY(4.75)
+
+      const textNorth = new TextGeometry("North", {
+        font: font,
+        size: 20,
+        height:2
+      })
+
+      const northMesh = new THREE.Mesh(textNorth)
+      northMesh.castShadow = true
+      northMesh.position.set(0,50,200)
+      northMesh.rotateY(3)
+
+      const textSouth = new TextGeometry("South", {
+        font: font,
+        size: 30,
+        height:2
+      })
+
+      const southMesh = new THREE.Mesh(textSouth)
+      southMesh.castShadow = true
+      southMesh.position.set(0,50,-300)
+      southMesh.rotateY(0)
+
+
+
+
+
+
       scene.add(textMesh)
+      scene.add(northMesh)
+      scene.add(southMesh)
+
+
+
     })
 
    
 
 
 
+    
 
-
-
+    
 
 
 
